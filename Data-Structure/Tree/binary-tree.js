@@ -111,9 +111,7 @@ BinaryTree.prototype.removeNode = function(node, data) {
 			node = node.left;
 			return node;
 		} else {
-			console.log('here')
 			let minNode = this.getMin(node.right);
-			console.log(minNode)
 			node.data = minNode.data;
 			node.right = this.removeNode(node.right, minNode.data);
 			return node;
