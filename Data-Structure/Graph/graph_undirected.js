@@ -1,20 +1,18 @@
 function Graph(v) {
 	this.vertices = v;
-	this.edges = 0;
-	this.adj = [];
-	this.marked = [];
+	this.edges = {};
+	this.marked = {};
 	for (let i = 0; i < this.vertices.length; i++) {
 		let item = this.vertices[i];
-		this.adj[item] = [];
+		this.edges[item] = [];
 		this.marked[item] = false;
 	}
 }
 
 Graph.prototype.addEdge = function(m, n) {
 	if (this.vertices.indexOf(m) != -1 && this.vertices.indexOf(n) != -1) {
-		this.adj[m].push(n);
-		this.adj[n].push(m);
-		this.edges++;
+		this.edges[m].push(n);
+		this.edges[n].push(m);
 	}
 }
 
@@ -22,8 +20,8 @@ Graph.prototype.showGraph = function() {
 	for (let i = 0; i < this.vertices.length; i++) {
 		let item = this.vertices[i];
 		let str = item + ' => ';
-		for (let j = 0; j < this.adj[item].length; j++) {
-			str += this.adj[item][j] + ' ';
+		for (let j = 0; j < this.edges[item].length; j++) {
+			str += this.edges[item][j] + ' ';
 		}
 		console.log(str);
 	}
@@ -34,8 +32,8 @@ Graph.prototype.dfs = function(v) {
 	if (this.vertices.indexOf(v) != -1) {
 		console.log('Visited: ' + v);
 	}
-	for (let i = 0; i < this.adj[v].length; i++) {
-		let w = this.adj[v][i];
+	for (let i = 0; i < this.edges[v].length; i++) {
+		let w = this.edges[v][i];
 		if (!this.marked[w]) {
 			this.dfs(w);
 		}
@@ -52,8 +50,8 @@ Graph.prototype.bfs = function(v) {
 				this.marked[item] = true;
 				console.log('Visited: ' + item);
 			}
-			for (let i = 0; i < this.adj[item].length; i++) {
-				let w = this.adj[item][i];
+			for (let i = 0; i < this.edges[item].length; i++) {
+				let w = this.edges[item][i];
 				if (!this.marked[w]) {
 					queue.push(w);
 				}
@@ -63,7 +61,7 @@ Graph.prototype.bfs = function(v) {
 }
 
 Graph.prototype.setMarkedInit = function() {
-	if (this.marked.every(item => {
+	if (Object.values(this.marked).every(item => {
 		return item === true
 	})) {
 		for (let key in this.marked) {

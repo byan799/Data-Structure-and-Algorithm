@@ -1,12 +1,11 @@
 function Graph(v) {
     this.vertices = v;
-    this.edges = 0;
-    this.adj = []; 
-    this.marked = [];
-    this.firstIn = [];
+    this.edges = {};
+    this.marked = {};
+    this.firstIn = {};
     for (let i = 0; i < this.vertices.length; i++) {
         let item = this.vertices[i];
-        this.adj[item] = [];
+        this.edges[item] = [];
         this.firstIn[item] = 0;
         this.marked[item] = false;
     }
@@ -14,7 +13,7 @@ function Graph(v) {
 
 Graph.prototype.addEdge = function(m, n) {
     if (this.vertices.indexOf(m) != -1 && this.vertices.indexOf(n) != -1) {
-        this.adj[m].push(n);
+        this.edges[m].push(n);
         this.firstIn[n]++;
     }
 }
@@ -30,8 +29,8 @@ Graph.prototype.sortShow = function() {
         let current = queue.shift();
         this.marked[current] = true;
         console.log(current);
-        for (let i = 0; i < this.adj[current].length; i++) {
-            let item = this.adj[current][i];
+        for (let i = 0; i < this.edges[current].length; i++) {
+            let item = this.edges[current][i];
             if (!this.marked[item]) {
                 this.firstIn[item]--;
                 if (this.firstIn[item] === 0) {
